@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["node"],
+    "strict": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": [
+    "vite.config.ts",
+    "server",
+    "src/concept/concept-schema.ts",
+    "src/concept/concept-types.ts",
+    "src/concept/concept-prompt.ts",
+    "src/concept/normalize-label-concept.ts",
+    "src/color/color-engine.ts",
+    "src/color/color-math.ts",
+    "src/color/color-rules.ts",
+    "src/color/color-types.ts",
+    "src/research",
+    "src/types",
+    "src/export/export-types.ts",
+    "src/export/imposition.ts",
+    "src/export/print-formats.ts",
+    "src/label/templates",
+    "src/label/typography/font-roles.ts",
+    "src/label/validation/validation-types.ts",
+    "test"
+  ]
+}
