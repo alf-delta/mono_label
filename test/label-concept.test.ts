@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { RawLabelConcept } from '../src/concept/concept-schema';
 import { normalizeLabelConcept } from '../src/concept/normalize-label-concept';
+import { colorDistance } from '../src/color/color-math';
 import { FixtureResearchProvider } from '../server/research/fixture-provider';
 import { ResearchService } from '../server/research/research-service';
 
@@ -26,35 +27,35 @@ test('fixture concepts normalize to four distinct, verified directions', async (
   }
 });
 
-test('unsupported research anchors are rejected', async () => {
+test('unsupported research anchors are repaired from verified facts', async () => {
   const { research, raw } = await fixtureData();
   const invalid = structuredClone(raw) as RawLabelConcept;
   invalid.recommended.anchors[1].value = 'unsupported-note';
 
-  assert.throws(
-    () => normalizeLabelConcept(invalid, research, 'fixture', 'fixture-model'),
-    /must cite the verified variety/,
-  );
+  const result = normalizeLabelConcept(invalid, research, 'fixture', 'fixture-model');
+  assert.ok(result.recommended.anchors.some((anchor) => anchor.field !== 'variety' && anchor.value !== 'unsupported-note'));
 });
 
-test('concept stories must explicitly name their evidence', async () => {
+test('concept stories missing their evidence are repaired', async () => {
   const { research, raw } = await fixtureData();
   const invalid = structuredClone(raw) as RawLabelConcept;
   invalid.recommended.story = 'A beautiful and expressive direction created exclusively for this exceptional coffee lot.';
 
-  assert.throws(
-    () => normalizeLabelConcept(invalid, research, 'fixture', 'fixture-model'),
-    /must cite the verified variety/,
-  );
+  const result = normalizeLabelConcept(invalid, research, 'fixture', 'fixture-model');
+  assert.match(result.recommended.story, /Geisha/);
+  assert.ok(result.recommended.anchors.some((anchor) => result.recommended.story.includes(anchor.value)));
 });
 
-test('visually duplicate palette directions are rejected', async () => {
+test('visually duplicate palette directions are separated automatically', async () => {
   const { research, raw } = await fixtureData();
   const invalid = structuredClone(raw) as RawLabelConcept;
   for (const alternative of invalid.alternatives) alternative.requestedHex = invalid.recommended.requestedHex;
 
-  assert.throws(
-    () => normalizeLabelConcept(invalid, research, 'fixture', 'fixture-model'),
-    /not visually distinct/,
-  );
+  const result = normalizeLabelConcept(invalid, research, 'fixture', 'fixture-model');
+  const colors = [result.recommended, ...result.alternatives];
+  for (let first = 0; first < colors.length; first += 1) {
+    for (let second = first + 1; second < colors.length; second += 1) {
+      assert.ok(colorDistance(colors[first].hex, colors[second].hex) >= 30);
+    }
+  }
 });

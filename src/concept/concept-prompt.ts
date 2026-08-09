@@ -12,7 +12,7 @@ For every color:
 - Write one concise English sentence explaining the connection between the color and the anchored facts.
 - Propose a six-digit hex color. Prefer refined, moderately dark colors that can carry ivory typography.
 
-Make the four hues meaningfully different. Do not invent origins, processes, varieties, tasting notes, or meanings for personal and farm names. The application will perform final contrast and print-safety correction.`;
+Use four clearly different hue families, not lighter or darker variants of the same hue. Aim for at least 90 degrees of hue separation between neighboring concepts. Do not invent origins, processes, varieties, tasting notes, or meanings for personal and farm names. The application will perform final contrast, print-safety and palette-separation correction.`;
 
 export function createLabelConceptUserPrompt({ research }: LabelConceptRequest): string {
   const facts = {
