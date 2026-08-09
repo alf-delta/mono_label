@@ -83,17 +83,25 @@ export function resolveBackgroundColor(
     }
 
     const issueTypes = new Set(latest.issues.map((issue) => issue.type));
-    if (issueTypes.has('SATURATION_TOO_LOW')) saturation = rules.minimumSaturation;
-    if (issueTypes.has('SATURATION_TOO_HIGH')) saturation = rules.maximumSaturation;
+    let adjusted = false;
+    if (issueTypes.has('SATURATION_TOO_LOW')) {
+      saturation = clamp(saturation + rules.adjustmentStep, rules.minimumSaturation, rules.maximumSaturation);
+      adjusted = true;
+    }
+    if (issueTypes.has('SATURATION_TOO_HIGH')) {
+      saturation = clamp(saturation - rules.adjustmentStep, rules.minimumSaturation, rules.maximumSaturation);
+      adjusted = true;
+    }
 
     if (issueTypes.has('LUMINANCE_TOO_HIGH') || issueTypes.has('LIGHTNESS_TOO_HIGH') || issueTypes.has('CONTRAST_TOO_LOW')) {
       lightness -= rules.adjustmentStep;
+      adjusted = true;
     } else if (issueTypes.has('LUMINANCE_TOO_LOW') || issueTypes.has('LIGHTNESS_TOO_LOW')) {
       lightness += rules.adjustmentStep;
-    } else {
-      break;
+      adjusted = true;
     }
 
+    if (!adjusted) break;
     if (lightness < rules.minimumLightness || lightness > rules.maximumLightness) break;
   }
 

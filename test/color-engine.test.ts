@@ -16,6 +16,13 @@ test('a correctable color is moved into the print-safe range', () => {
   assert.equal(validateBackgroundColor(result.finalHex).valid, true);
 });
 
+test('a muted AI color survives RGB rounding at the saturation boundary', () => {
+  const result = resolveBackgroundColor('#3F5145');
+  assert.equal(result.status, 'adjusted');
+  assert.ok(result.finalHex);
+  assert.equal(validateBackgroundColor(result.finalHex).valid, true);
+});
+
 test('invalid hex values are rejected without a fallback color', () => {
   const result = resolveBackgroundColor('mulberry');
   assert.equal(result.status, 'rejected');
