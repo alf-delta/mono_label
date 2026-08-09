@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
-import { coffeeResearchResultSchema } from '../../src/research/research-schema.js';
+import { coffeeResearchModelOutputSchema, coffeeResearchResultSchema } from '../../src/research/research-schema.js';
 import { createResearchUserPrompt, RESEARCH_SYSTEM_PROMPT } from '../../src/research/research-prompt.js';
 import type { ResearchRequest, ResearchSource } from '../../src/research/research-types.js';
 import type { ProviderRequestContext, ResearchProvider, ResearchProviderResult } from './provider-types.js';
@@ -81,7 +81,7 @@ export class OpenAIResearchProvider implements ResearchProvider {
         { role: 'system', content: RESEARCH_SYSTEM_PROMPT },
         { role: 'user', content: createResearchUserPrompt(request) },
       ],
-      text: { format: zodTextFormat(coffeeResearchResultSchema, 'coffee_research') },
+      text: { format: zodTextFormat(coffeeResearchModelOutputSchema, 'coffee_research') },
     });
 
     if (!response.output_parsed) throw new Error('The research response did not contain structured output.');
