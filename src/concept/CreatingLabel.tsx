@@ -3,7 +3,8 @@ import { createLabelFixture } from '../label/fixtures/reference-label';
 import { LabelRenderer } from '../label/renderer/LabelRenderer';
 import { COFFEE_LABEL_V1 } from '../label/templates/coffee-label-v1';
 import { useLabelValidation } from '../label/validation/use-label-validation';
-import { researchResultToLabelInput, type ResearchRequest, type ResearchResponse } from '../research/research-types';
+import { researchResultToLabelInput } from '../research/research-to-label.js';
+import type { ResearchRequest, ResearchResponse } from '../research/research-types';
 import { WorkflowHeader } from '../workflow/WorkflowHeader';
 
 const CREATIVE_STAGES = [

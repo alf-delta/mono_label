@@ -1,4 +1,4 @@
-import type { BrewMethod, CoffeeLabelInput } from '../types/coffee-label.js';
+import type { BrewMethod } from '../types/coffee-label.js';
 
 export const CONFIDENCE_LEVELS = ['high', 'medium', 'low', 'unknown'] as const;
 export type Confidence = (typeof CONFIDENCE_LEVELS)[number];
@@ -46,22 +46,5 @@ export interface ResearchApiError {
     code: 'INVALID_REQUEST' | 'RESEARCH_NOT_CONFIGURED' | 'RESEARCH_FAILED' | 'METHOD_NOT_ALLOWED' | 'RATE_LIMITED';
     message: string;
     requestId?: string;
-  };
-}
-
-export function researchResultToLabelInput(
-  response: ResearchResponse,
-  backgroundColor: string,
-): CoffeeLabelInput {
-  const result = response.result;
-  return {
-    coffeeName: result.coffeeName.value ?? '',
-    variety: result.variety.value ?? '',
-    processing: result.processing.value ?? '',
-    altitude: result.altitude.value ?? '',
-    producer: result.producer.value ?? { line1: '', line2: '' },
-    tastingNotes: result.tastingNotes.value ?? [],
-    brewMethod: result.brewMethod.value ?? 'pourover',
-    backgroundColor,
   };
 }

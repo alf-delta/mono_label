@@ -20,25 +20,25 @@ export const COFFEE_LABEL_V1: CoffeeLabelTemplate = {
   regions: {
     variety: box({
       x: 10.3, y: 9, width: 54.3, height: 5.82,
-      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.75,
+      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.2,
       maxLines: 1, lineHeight: 1, horizontalAlign: 'left', verticalAlign: 'middle',
       overflow: 'shrink-then-error', caseTransform: 'uppercase', letterSpacing: 0,
     }),
     processing: box({
       x: 10.3, y: 14.82, width: 54.3, height: 6.03,
-      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.75,
+      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.2,
       maxLines: 1, lineHeight: 1, horizontalAlign: 'left', verticalAlign: 'middle',
       overflow: 'shrink-then-error', caseTransform: 'uppercase', letterSpacing: 0,
     }),
     altitude: box({
       x: 10.3, y: 20.85, width: 54.3, height: 6.03,
-      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.9,
+      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.2,
       maxLines: 1, lineHeight: 1, horizontalAlign: 'left', verticalAlign: 'middle',
       overflow: 'shrink-then-error', caseTransform: 'uppercase', letterSpacing: 0,
     }),
     producer: box({
       x: 10.3, y: 26.88, width: 54.3, height: 9.24,
-      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.75,
+      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.2,
       maxLines: 2, lineHeight: 0.95, horizontalAlign: 'left', verticalAlign: 'middle',
       overflow: 'wrap-then-shrink-then-error', caseTransform: 'uppercase', letterSpacing: 0,
     }),
@@ -56,13 +56,13 @@ export const COFFEE_LABEL_V1: CoffeeLabelTemplate = {
     }),
     coffeeName: box({
       x: 10, y: 61, width: 87, height: 9.6,
-      fontRole: 'primaryBold', fontSize: 5.33, minFontSize: 4.7,
+      fontRole: 'primaryBold', fontSize: 5.33, minFontSize: 3.4,
       maxLines: 1, lineHeight: 1, horizontalAlign: 'center', verticalAlign: 'middle',
       overflow: 'shrink-then-error', caseTransform: 'uppercase', letterSpacing: 0,
     }),
     tastingNotes: box({
       x: 7.6, y: 70.3, width: 91, height: 9.7,
-      fontRole: 'displayItalic', fontSize: 4.9, minFontSize: 4.5,
+      fontRole: 'displayItalic', fontSize: 4.9, minFontSize: 3.4,
       maxLines: 1, lineHeight: 1, horizontalAlign: 'center', verticalAlign: 'middle',
       overflow: 'shrink-then-error', caseTransform: 'lowercase', letterSpacing: 0,
     }),

@@ -3,7 +3,8 @@ import { createLabelFixture } from '../label/fixtures/reference-label';
 import { LabelRenderer } from '../label/renderer/LabelRenderer';
 import { COFFEE_LABEL_V1 } from '../label/templates/coffee-label-v1';
 import { useLabelValidation } from '../label/validation/use-label-validation';
-import { researchResultToLabelInput, type ResearchRequest, type ResearchResponse } from '../research/research-types';
+import { researchResultToLabelInput } from '../research/research-to-label.js';
+import type { ResearchRequest, ResearchResponse } from '../research/research-types';
 import { WorkflowHeader } from '../workflow/WorkflowHeader';
 import { conceptColors, type LabelConceptColor, type LabelConceptResponse } from './concept-types';
 
@@ -18,7 +19,6 @@ export function ColorConceptScreen({ request, research, concept, onBack, onRegen
   const colors = conceptColors(concept);
   const [selectedId, setSelectedId] = useState(concept.recommended.id);
   const selected = colors.find((color) => color.id === selectedId) ?? concept.recommended;
-  const otherColors = colors.filter((color) => color.id !== selected.id);
   const fixture = useMemo(() => createLabelFixture(
     'concept-result',
     selected.name,
@@ -35,10 +35,13 @@ export function ColorConceptScreen({ request, research, concept, onBack, onRegen
     <main className="app-shell workflow-shell concept-result-shell" style={style}>
       <WorkflowHeader step="Step 4 of 5" onStartOver={onBack} />
       <section className="concept-result-stage">
-        <aside className="concept-story-panel">
+        <aside className="concept-story-panel" data-selected-color={selected.hex}>
           <span className="eyebrow">{selected.role === 'suggested' ? 'AI recommendation' : 'Selected direction'}</span>
           <h1>{selected.name}</h1>
-          <code>{selected.hex}</code>
+          <div className="concept-selected-color">
+            <span style={{ '--selected-swatch': selected.hex } as CSSProperties} aria-hidden="true" />
+            <code>{selected.hex}</code>
+          </div>
           <p>{selected.story}</p>
           <div className="concept-anchor-list">
             {selected.anchors.map((anchor) => (
@@ -68,31 +71,37 @@ export function ColorConceptScreen({ request, research, concept, onBack, onRegen
         <aside className="concept-options-panel">
           <div className="concept-options-heading">
             <div>
-              <span className="eyebrow">Other directions</span>
-              <h2>Every color belongs to this coffee.</h2>
+              <span className="eyebrow">Color directions</span>
+              <h2>Choose the label background.</h2>
             </div>
-            <span>{otherColors.length} options</span>
+            <span>{colors.length} options</span>
           </div>
           <div className="concept-option-list" role="radiogroup" aria-label="Color directions">
-            {otherColors.map((color, index) => (
+            {colors.map((color, index) => {
+              const isSelected = color.id === selected.id;
+              return (
               <button
                 type="button"
                 role="radio"
-                aria-checked="false"
-                className="concept-option-card"
+                aria-checked={isSelected}
+                aria-label={`Select ${color.name} ${color.hex}`}
+                className={isSelected ? 'concept-option-card is-selected' : 'concept-option-card'}
                 key={color.id}
                 onClick={() => setSelectedId(color.id)}
+                data-color-id={color.id}
+                data-color-hex={color.hex}
                 style={{ '--option-color': color.hex, '--option-index': index } as CSSProperties}
               >
                 <span className="concept-option-swatch" aria-hidden="true" />
                 <span className="concept-option-copy">
-                  <small>{color.role === 'suggested' ? 'AI recommendation' : color.hex}</small>
+                  <small>{isSelected ? 'Selected' : color.role === 'suggested' ? 'AI recommendation' : color.hex}</small>
                   <strong>{color.name}</strong>
                   <p>{color.story}</p>
                 </span>
                 <span className="concept-option-arrow" aria-hidden="true">↗</span>
               </button>
-            ))}
+              );
+            })}
           </div>
         </aside>
       </section>
