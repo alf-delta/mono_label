@@ -67,6 +67,7 @@ http://127.0.0.1:5173/?fixture=invalid-color
 - `server/export` — validated vector SVG-to-PDF compositor and print-mark renderer
 - `server/api.ts` — validated, independently rate-limited, no-store HTTP boundary
 - `server/api-runtime.ts` — proxy-aware client identity, endpoint budgets, and privacy-preserving OpenAI safety identifiers
+- `server/vercel-handler.ts` and `api/` — platform adapter and Vercel Function entry points
 - `server/index.ts` — production static and API server
 - `src/label/fixtures` — reference, espresso, bounded-shrink, long-copy, and invalid-color developer scenarios
 - `src/label/data` — pure input-to-renderer normalization and fixed defaults

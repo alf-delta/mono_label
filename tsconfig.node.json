@@ -13,6 +13,7 @@
   },
   "include": [
     "vite.config.ts",
+    "api",
     "server",
     "src/concept/concept-schema.ts",
     "src/concept/concept-types.ts",
