@@ -1,6 +1,6 @@
-import { COLOR_RULES, type ColorRules } from './color-rules';
-import { contrastRatio, hexToRgb, hslToHex, relativeLuminance, rgbToHsl } from './color-math';
-import type { ColorMetrics, ColorResolution, ColorValidationIssue, ColorValidationResult } from './color-types';
+import { COLOR_RULES, type ColorRules } from './color-rules.js';
+import { contrastRatio, hexToRgb, hslToHex, relativeLuminance, rgbToHsl } from './color-math.js';
+import type { ColorMetrics, ColorResolution, ColorValidationIssue, ColorValidationResult } from './color-types.js';
 
 const round = (value: number, digits: number) => Number(value.toFixed(digits));
 const clamp = (value: number, minimum: number, maximum: number) => Math.min(maximum, Math.max(minimum, value));

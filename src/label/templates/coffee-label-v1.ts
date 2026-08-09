@@ -1,4 +1,4 @@
-import type { CoffeeLabelTemplate, TemplateBox } from './template-types';
+import type { CoffeeLabelTemplate, TemplateBox } from './template-types.js';
 
 const box = (value: TemplateBox): TemplateBox => value;
 

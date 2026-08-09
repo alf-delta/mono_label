@@ -1,7 +1,7 @@
-import type { RawCoffeeResearchResult } from '../../src/research/research-schema';
-import type { ResearchRequest, ResearchSource } from '../../src/research/research-types';
-import type { RawLabelConcept } from '../../src/concept/concept-schema';
-import type { LabelConceptRequest } from '../../src/concept/concept-types';
+import type { RawCoffeeResearchResult } from '../../src/research/research-schema.js';
+import type { ResearchRequest, ResearchSource } from '../../src/research/research-types.js';
+import type { RawLabelConcept } from '../../src/concept/concept-schema.js';
+import type { LabelConceptRequest } from '../../src/concept/concept-types.js';
 
 export interface ProviderRequestContext {
   safetyIdentifier?: string;

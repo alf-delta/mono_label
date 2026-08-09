@@ -1,4 +1,4 @@
-import type { FontRole } from '../typography/font-roles';
+import type { FontRole } from '../typography/font-roles.js';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 export type VerticalAlign = 'top' | 'middle' | 'baseline' | 'bottom';

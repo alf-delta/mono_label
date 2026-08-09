@@ -1,12 +1,12 @@
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
-import { coffeeResearchResultSchema } from '../../src/research/research-schema';
-import { createResearchUserPrompt, RESEARCH_SYSTEM_PROMPT } from '../../src/research/research-prompt';
-import type { ResearchRequest, ResearchSource } from '../../src/research/research-types';
-import type { ProviderRequestContext, ResearchProvider, ResearchProviderResult } from './provider-types';
-import { rawLabelConceptSchema } from '../../src/concept/concept-schema';
-import { createLabelConceptUserPrompt, LABEL_CONCEPT_SYSTEM_PROMPT } from '../../src/concept/concept-prompt';
-import type { LabelConceptRequest } from '../../src/concept/concept-types';
+import { coffeeResearchResultSchema } from '../../src/research/research-schema.js';
+import { createResearchUserPrompt, RESEARCH_SYSTEM_PROMPT } from '../../src/research/research-prompt.js';
+import type { ResearchRequest, ResearchSource } from '../../src/research/research-types.js';
+import type { ProviderRequestContext, ResearchProvider, ResearchProviderResult } from './provider-types.js';
+import { rawLabelConceptSchema } from '../../src/concept/concept-schema.js';
+import { createLabelConceptUserPrompt, LABEL_CONCEPT_SYSTEM_PROMPT } from '../../src/concept/concept-prompt.js';
+import type { LabelConceptRequest } from '../../src/concept/concept-types.js';
 
 type UnknownRecord = Record<string, unknown>;
 

@@ -1,4 +1,4 @@
-import type { BrewMethod, CoffeeLabelInput } from '../types/coffee-label';
+import type { BrewMethod, CoffeeLabelInput } from '../types/coffee-label.js';
 
 export const CONFIDENCE_LEVELS = ['high', 'medium', 'low', 'unknown'] as const;
 export type Confidence = (typeof CONFIDENCE_LEVELS)[number];

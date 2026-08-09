@@ -2,10 +2,10 @@ import { randomUUID } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { resolve } from 'node:path';
-import { COFFEE_LABEL_V1 } from '../../src/label/templates/coffee-label-v1';
-import { readJsonBody, sendJson } from '../http-utils';
-import { exportRequestSchema } from './export-schema';
-import { generatePrintPdf } from './pdf-export';
+import { COFFEE_LABEL_V1 } from '../../src/label/templates/coffee-label-v1.js';
+import { readJsonBody, sendJson } from '../http-utils.js';
+import { exportRequestSchema } from './export-schema.js';
+import { generatePrintPdf } from './pdf-export.js';
 
 function safeOutlinedSvg(svg: string): boolean {
   const disallowed = /<(?:text|tspan|image|script|foreignObject|a|use|style)\b|<!DOCTYPE|\b(?:href|xlink:href)\s*=|\bon[a-z]+\s*=|url\s*\(/i;

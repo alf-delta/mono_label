@@ -1,4 +1,4 @@
-import type { ResearchRequest } from './research-types';
+import type { ResearchRequest } from './research-types.js';
 
 export const RESEARCH_SYSTEM_PROMPT = `You research a specific specialty coffee for a controlled print-label workflow.
 

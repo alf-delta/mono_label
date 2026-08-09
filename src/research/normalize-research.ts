@@ -1,5 +1,5 @@
-import type { CoffeeResearchResult, Confidence, ResearchSource, SourcedResearchField } from './research-types';
-import type { RawCoffeeResearchResult } from './research-schema';
+import type { CoffeeResearchResult, Confidence, ResearchSource, SourcedResearchField } from './research-types.js';
+import type { RawCoffeeResearchResult } from './research-schema.js';
 
 function normalizeUrl(value: string): string | null {
   try {

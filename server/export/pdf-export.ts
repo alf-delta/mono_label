@@ -5,10 +5,10 @@ import {
   CROP_MARK_OFFSET_MM,
   CUTTER_GUIDE_LENGTH_MM,
   calculateImposition,
-} from '../../src/export/imposition';
-import type { ExportSettings, ImpositionResult } from '../../src/export/export-types';
-import { COFFEE_LABEL_V1 } from '../../src/label/templates/coffee-label-v1';
-import type { ParsedExportRequest } from './export-schema';
+} from '../../src/export/imposition.js';
+import type { ExportSettings, ImpositionResult } from '../../src/export/export-types.js';
+import { COFFEE_LABEL_V1 } from '../../src/label/templates/coffee-label-v1.js';
+import type { ParsedExportRequest } from './export-schema.js';
 
 const POINTS_PER_MM = 72 / 25.4;
 const MARK_STROKE_MM = 0.15;

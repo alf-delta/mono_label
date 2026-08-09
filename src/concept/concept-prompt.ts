@@ -1,4 +1,4 @@
-import type { LabelConceptRequest } from './concept-types';
+import type { LabelConceptRequest } from './concept-types.js';
 
 export const LABEL_CONCEPT_SYSTEM_PROMPT = `You are the color director for a premium specialty-coffee label.
 

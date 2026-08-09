@@ -1,4 +1,4 @@
-import type { ExportSettings, PrintFormat } from './export-types';
+import type { ExportSettings, PrintFormat } from './export-types.js';
 
 export const PRINT_FORMATS: readonly PrintFormat[] = Object.freeze([
   { id: 'a4', name: 'A4', family: 'ISO', widthMm: 210, heightMm: 297 },

@@ -1,12 +1,12 @@
-import type { CoffeeLabelTemplate } from '../label/templates/template-types';
+import type { CoffeeLabelTemplate } from '../label/templates/template-types.js';
 import type {
   ExportSettings,
   ImpositionResult,
   LabelPlacement,
   PrintFormat,
   SheetOrientation,
-} from './export-types';
-import { getPrintFormat } from './print-formats';
+} from './export-types.js';
+import { getPrintFormat } from './print-formats.js';
 
 export const CUTTER_GUIDE_LENGTH_MM = 3;
 export const CROP_MARK_OFFSET_MM = 0.6;

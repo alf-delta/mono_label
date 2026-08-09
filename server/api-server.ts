@@ -1,9 +1,9 @@
 import { createServer } from 'node:http';
 import { loadEnv } from 'vite';
-import { handleApi } from './api';
-import { createResearchService } from './research/create-research-service';
-import { createApiRuntime } from './api-runtime';
-import { setSecurityHeaders } from './security-headers';
+import { handleApi } from './api.js';
+import { createResearchService } from './research/create-research-service.js';
+import { createApiRuntime } from './api-runtime.js';
+import { setSecurityHeaders } from './security-headers.js';
 
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env };

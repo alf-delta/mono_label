@@ -1,4 +1,4 @@
-import type { TemplateRegionKey } from '../templates/template-types';
+import type { TemplateRegionKey } from '../templates/template-types.js';
 
 export type TextLayoutRegion = Exclude<TemplateRegionKey, 'bestFor' | 'brewIcon'>;
 

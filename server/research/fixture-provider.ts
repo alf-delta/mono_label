@@ -1,6 +1,6 @@
-import type { ResearchProvider, ResearchProviderResult } from './provider-types';
-import type { LabelConceptRequest } from '../../src/concept/concept-types';
-import type { RawLabelConcept } from '../../src/concept/concept-schema';
+import type { ResearchProvider, ResearchProviderResult } from './provider-types.js';
+import type { LabelConceptRequest } from '../../src/concept/concept-types.js';
+import type { RawLabelConcept } from '../../src/concept/concept-schema.js';
 
 const FIXTURE_SOURCE = 'https://example.invalid/monoblend-research-fixture';
 

@@ -2,10 +2,10 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { basename, extname, resolve, sep } from 'node:path';
 import { loadEnv } from 'vite';
-import { handleApi } from './api';
-import { createApiRuntime } from './api-runtime';
-import { createResearchService } from './research/create-research-service';
-import { setSecurityHeaders } from './security-headers';
+import { handleApi } from './api.js';
+import { createApiRuntime } from './api-runtime.js';
+import { createResearchService } from './research/create-research-service.js';
+import { setSecurityHeaders } from './security-headers.js';
 
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env };

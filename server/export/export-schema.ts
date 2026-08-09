@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { PRINT_FORMAT_IDS } from '../../src/export/export-types';
+import { PRINT_FORMAT_IDS } from '../../src/export/export-types.js';
 
 const marksSchema = z.object({
   cropMarks: z.boolean(),

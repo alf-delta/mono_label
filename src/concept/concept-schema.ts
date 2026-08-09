@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { coffeeResearchResultSchema } from '../research/research-schema';
+import { coffeeResearchResultSchema } from '../research/research-schema.js';
 
 const anchorFieldSchema = z.enum(['coffeeName', 'variety', 'processing', 'tastingNote', 'origin']);
 const anchorSchema = z.object({

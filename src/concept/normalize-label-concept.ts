@@ -1,9 +1,9 @@
-import { resolveBackgroundColor } from '../color/color-engine';
-import { colorDistance } from '../color/color-math';
-import type { ColorCandidate } from '../color/color-types';
-import type { CoffeeResearchResult } from '../research/research-types';
-import type { RawConceptColor, RawLabelConcept } from './concept-schema';
-import type { ConceptAnchor, ConceptAnchorField, LabelConceptColor, LabelConceptResponse } from './concept-types';
+import { resolveBackgroundColor } from '../color/color-engine.js';
+import { colorDistance } from '../color/color-math.js';
+import type { ColorCandidate } from '../color/color-types.js';
+import type { CoffeeResearchResult } from '../research/research-types.js';
+import type { RawConceptColor, RawLabelConcept } from './concept-schema.js';
+import type { ConceptAnchor, ConceptAnchorField, LabelConceptColor, LabelConceptResponse } from './concept-types.js';
 
 const MINIMUM_COLOR_DISTANCE = 30;
 

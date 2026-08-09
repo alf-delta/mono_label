@@ -1,6 +1,6 @@
-import type { CoffeeLabel } from '../types/coffee-label';
-import type { CoffeeLabelTemplate } from '../label/templates/template-types';
-import type { LabelTextLayout } from '../label/validation/validation-types';
+import type { CoffeeLabel } from '../types/coffee-label.js';
+import type { CoffeeLabelTemplate } from '../label/templates/template-types.js';
+import type { LabelTextLayout } from '../label/validation/validation-types.js';
 
 export const PRINT_FORMAT_IDS = ['a4', 'a3', 'us-letter', 'us-tabloid'] as const;
 export type PrintFormatId = (typeof PRINT_FORMAT_IDS)[number];

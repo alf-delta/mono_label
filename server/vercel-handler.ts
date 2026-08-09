@@ -1,9 +1,9 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { handleApi } from './api';
-import { createApiRuntime } from './api-runtime';
-import { sendJson } from './http-utils';
-import { createResearchService } from './research/create-research-service';
-import { setSecurityHeaders } from './security-headers';
+import { handleApi } from './api.js';
+import { createApiRuntime } from './api-runtime.js';
+import { sendJson } from './http-utils.js';
+import { createResearchService } from './research/create-research-service.js';
+import { setSecurityHeaders } from './security-headers.js';
 
 export type VercelApiHandler = (request: IncomingMessage, response: ServerResponse) => Promise<void>;
 

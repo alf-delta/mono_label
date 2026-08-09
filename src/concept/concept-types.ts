@@ -1,5 +1,5 @@
-import type { ColorCandidate } from '../color/color-types';
-import type { CoffeeResearchResult } from '../research/research-types';
+import type { ColorCandidate } from '../color/color-types.js';
+import type { CoffeeResearchResult } from '../research/research-types.js';
 
 export const CONCEPT_ANCHOR_FIELDS = [
   'coffeeName',

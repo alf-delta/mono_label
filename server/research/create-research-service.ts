@@ -1,6 +1,6 @@
-import { FixtureResearchProvider } from './fixture-provider';
-import { OpenAIResearchProvider } from './openai-provider';
-import { ResearchService } from './research-service';
+import { FixtureResearchProvider } from './fixture-provider.js';
+import { OpenAIResearchProvider } from './openai-provider.js';
+import { ResearchService } from './research-service.js';
 
 export function createResearchService(env: Record<string, string | undefined>): ResearchService {
   const provider = env.RESEARCH_PROVIDER === 'fixture'

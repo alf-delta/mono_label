@@ -1,13 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { researchRequestSchema } from '../src/research/research-schema';
-import type { ResearchApiError } from '../src/research/research-types';
-import { readJsonBody, sendJson } from './http-utils';
-import { handleExportApi } from './export/export-api';
-import { ResearchService } from './research/research-service';
-import { labelConceptRequestSchema } from '../src/concept/concept-schema';
-import type { LabelConceptApiError } from '../src/concept/concept-types';
-import type { ApiRuntime } from './api-runtime';
+import { researchRequestSchema } from '../src/research/research-schema.js';
+import type { ResearchApiError } from '../src/research/research-types.js';
+import { readJsonBody, sendJson } from './http-utils.js';
+import { handleExportApi } from './export/export-api.js';
+import { ResearchService } from './research/research-service.js';
+import { labelConceptRequestSchema } from '../src/concept/concept-schema.js';
+import type { LabelConceptApiError } from '../src/concept/concept-types.js';
+import type { ApiRuntime } from './api-runtime.js';
 
 function sendError(response: ServerResponse, status: number, error: ResearchApiError['error']): void {
   sendJson(response, status, { error } satisfies ResearchApiError);

@@ -1,8 +1,8 @@
-import { normalizeResearchResult } from '../../src/research/normalize-research';
-import type { ResearchRequest, ResearchResponse } from '../../src/research/research-types';
-import type { ProviderRequestContext, ResearchProvider } from './provider-types';
-import { normalizeLabelConcept } from '../../src/concept/normalize-label-concept';
-import type { LabelConceptRequest, LabelConceptResponse } from '../../src/concept/concept-types';
+import { normalizeResearchResult } from '../../src/research/normalize-research.js';
+import type { ResearchRequest, ResearchResponse } from '../../src/research/research-types.js';
+import type { ProviderRequestContext, ResearchProvider } from './provider-types.js';
+import { normalizeLabelConcept } from '../../src/concept/normalize-label-concept.js';
+import type { LabelConceptRequest, LabelConceptResponse } from '../../src/concept/concept-types.js';
 
 export class ResearchService {
   constructor(private readonly provider: ResearchProvider) {}
