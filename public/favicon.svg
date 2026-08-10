@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Monoblend</title>
+  <defs>
+    <linearGradient id="monoblend" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7A4C5A">
+        <animate attributeName="stop-color" values="#7A4C5A;#754556;#40556C;#7A4C5A" dur="12s" repeatCount="indefinite" />
+      </stop>
+      <stop offset=".48" stop-color="#754556">
+        <animate attributeName="stop-color" values="#754556;#6D5338;#7A4C5A;#3F5B4B;#754556" dur="12s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="1" stop-color="#40556C">
+        <animate attributeName="stop-color" values="#40556C;#7A4C5A;#3F5B4B;#754556;#40556C" dur="12s" repeatCount="indefinite" />
+      </stop>
+      <animateTransform
+        attributeName="gradientTransform"
+        type="rotate"
+        values="0 .5 .5;180 .5 .5;360 .5 .5"
+        dur="16s"
+        repeatCount="indefinite"
+      />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" fill="#7A4C5A" />
+  <rect class="motion" width="64" height="64" fill="url(#monoblend)" />
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      .motion { display: none; }
+    }
+  </style>
+</svg>
