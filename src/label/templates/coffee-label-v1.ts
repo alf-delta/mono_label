@@ -26,7 +26,7 @@ export const COFFEE_LABEL_V1: CoffeeLabelTemplate = {
     }),
     processing: box({
       x: 10.3, y: 14.82, width: 54.3, height: 6.03,
-      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.2,
+      fontRole: 'primaryBold', fontSize: 3, minFontSize: 2.15,
       maxLines: 1, lineHeight: 1, horizontalAlign: 'left', verticalAlign: 'middle',
       overflow: 'shrink-then-error', caseTransform: 'uppercase', letterSpacing: 0,
     }),

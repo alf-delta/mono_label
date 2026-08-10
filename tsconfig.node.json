@@ -30,6 +30,8 @@
     "src/export/print-formats.ts",
     "src/label/templates",
     "src/label/typography/font-roles.ts",
+    "src/label/typography/text-measurer.ts",
+    "src/label/validation/fit-text.ts",
     "src/label/validation/validation-types.ts",
     "test"
   ]
