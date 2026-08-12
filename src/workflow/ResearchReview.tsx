@@ -16,6 +16,11 @@ function displayValue(value: unknown): string {
   return String(value);
 }
 
+function isResolved(field: SourcedResearchField<unknown>): boolean {
+  if (field.value === null || field.confidence === 'unknown') return false;
+  return !Array.isArray(field.value) || field.value.length > 0;
+}
+
 function ResearchField({ label, field, sourceTitles }: {
   label: string;
   field: SourcedResearchField<unknown>;
@@ -42,7 +47,14 @@ export function ResearchReview({ request, response, onBack, onCreateLabel }: Res
   const result: CoffeeResearchResult = response.result;
   const unresolved = unresolvedResearchFields(result);
   const sourceTitles = new Map(response.sources.map((source) => [source.url, source.title]));
-  const canCreateLabel = Boolean(result.variety.value);
+  const criticalFields: Array<[string, SourcedResearchField<unknown>]> = [
+    ['coffee name', result.coffeeName],
+    ['variety', result.variety],
+    ['producer', result.producer],
+    ['tasting profile', result.tastingNotes],
+  ];
+  const missingCritical = criticalFields.filter(([, field]) => !isResolved(field)).map(([label]) => label);
+  const canCreateLabel = missingCritical.length === 0;
   const fields: Array<[string, SourcedResearchField<unknown>]> = [
     ['Coffee name', result.coffeeName],
     ['Variety', result.variety],
@@ -75,15 +87,15 @@ export function ResearchReview({ request, response, onBack, onCreateLabel }: Res
           {fields.map(([label, field]) => <ResearchField key={label} label={label} field={field} sourceTitles={sourceTitles} />)}
         </div>
         <aside className="research-decision">
-          <span className="eyebrow">Ready for color</span>
-          <h2>Create its identity</h2>
+          <span className="eyebrow">{canCreateLabel ? 'Ready for color' : 'Identity incomplete'}</span>
+          <h2>{canCreateLabel ? 'Create its identity' : 'Verify this coffee'}</h2>
           <p>The color studio will translate the verified variety and profile into one recommendation and three coffee-specific alternatives.</p>
           <div className="research-creative-facts">
             {[result.variety.value, ...(result.tastingNotes.value?.slice(0, 3) ?? [])].filter(Boolean).map((fact) => (
               <span key={fact}>{fact}</span>
             ))}
           </div>
-          {!canCreateLabel && <p className="research-create-warning">A variety is required. Research again with the variety in Additional information.</p>}
+          {!canCreateLabel && <p className="research-create-warning">Missing verified {missingCritical.join(', ')}. Choose another exact source or research this variety again.</p>}
           <div className="research-decision-actions">
             <button type="button" className="button button-primary" disabled={!canCreateLabel} onClick={onCreateLabel}>Create label <span aria-hidden="true">→</span></button>
             <button type="button" className="button button-secondary" onClick={onBack}>Research again</button>

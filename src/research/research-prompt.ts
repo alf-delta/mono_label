@@ -15,7 +15,9 @@ export function createResearchUserPrompt(request: ResearchRequest): string {
 
 Coffee name: ${JSON.stringify(request.coffeeName)}
 Producer: ${JSON.stringify(request.producer)}
+Expected variety: ${JSON.stringify(request.variety ?? '')}
+Primary source URL: ${JSON.stringify(request.sourceUrl ?? '')}
 Additional source or context: ${JSON.stringify(request.additionalInformation ?? '')}
 
-Prioritize primary producer/roaster pages and reputable coffee documentation. Resolve conflicts conservatively and leave uncertain properties unknown.`;
+Start with the supplied primary source URL when present. Prioritize primary producer/roaster pages and reputable coffee documentation. Resolve conflicts conservatively and leave uncertain properties unknown.`;
 }

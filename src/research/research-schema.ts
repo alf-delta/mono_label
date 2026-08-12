@@ -3,6 +3,8 @@ import { z } from 'zod';
 export const researchRequestSchema = z.object({
   coffeeName: z.string().trim().min(2).max(120),
   producer: z.string().trim().min(2).max(120),
+  variety: z.string().trim().min(2).max(80).optional(),
+  sourceUrl: z.url().optional(),
   additionalInformation: z.string().trim().max(1200).optional(),
 }).strict();
 

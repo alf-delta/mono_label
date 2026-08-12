@@ -67,3 +67,50 @@ test('Vercel research function accepts the platform pre-parsed request body', as
   const body = JSON.parse(result.captured.body) as { result: { variety: { value: string } } };
   assert.equal(body.result.variety.value, 'Geisha');
 });
+
+test('Vercel discovery returns exact fixture candidates with verified sources', async () => {
+  const handler = createVercelHandler({ RESEARCH_PROVIDER: 'fixture', SAFETY_IDENTIFIER_SECRET: 'test-secret' });
+  const result = response();
+  await handler(request('/api/discover', 'POST', { variety: 'Geisha' }), result.nodeResponse);
+
+  assert.equal(result.captured.status, 200);
+  const body = JSON.parse(result.captured.body) as {
+    canonicalVariety: string;
+    candidates: Array<{ country: string; coffeeName: string; sourceTitle: string }>;
+  };
+  assert.equal(body.canonicalVariety, 'Geisha');
+  assert.deepEqual(body.candidates, [{
+    country: 'Colombia',
+    coffeeName: 'King Arthur Geisha',
+    farm: 'Finca Puerto Arturo',
+    harvest: '2022',
+    processing: 'Washed',
+    producer: 'Elkin Arcila',
+    region: 'Támesis, Antioquia',
+    sourceTitle: 'Local deterministic discovery fixture',
+    sourceUrl: 'https://example.invalid/monoblend-research-fixture',
+    variety: 'Geisha',
+  }]);
+});
+
+test('color creation rejects an incomplete researched identity', async () => {
+  const handler = createVercelHandler({ RESEARCH_PROVIDER: 'fixture', SAFETY_IDENTIFIER_SECRET: 'test-secret' });
+  const result = response();
+  const sourced = <T>(value: T | null) => ({ value, confidence: value === null ? 'unknown' : 'medium', sources: value === null ? [] : ['https://example.invalid/source'] });
+  await handler(request('/api/label-concept', 'POST', {
+    research: {
+      coffeeName: sourced('King Arthur Geisha'),
+      variety: sourced('Geisha'),
+      processing: sourced('Washed'),
+      altitude: sourced('1850'),
+      producer: sourced({ line1: 'Colombia', line2: 'Támesis' }),
+      tastingNotes: sourced(null),
+      brewMethod: sourced('pourover'),
+      summary: 'Incomplete tasting profile.',
+    },
+  }), result.nodeResponse);
+
+  assert.equal(result.captured.status, 400);
+  const body = JSON.parse(result.captured.body) as { error: { code: string } };
+  assert.equal(body.error.code, 'INVALID_CONCEPT_REQUEST');
+});

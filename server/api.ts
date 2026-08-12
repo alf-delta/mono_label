@@ -8,6 +8,8 @@ import { ResearchService } from './research/research-service.js';
 import { labelConceptRequestSchema } from '../src/concept/concept-schema.js';
 import type { LabelConceptApiError } from '../src/concept/concept-types.js';
 import type { ApiRuntime } from './api-runtime.js';
+import { coffeeDiscoveryRequestSchema } from '../src/discovery/discovery-schema.js';
+import type { CoffeeDiscoveryApiError } from '../src/discovery/discovery-types.js';
 
 function sendError(response: ServerResponse, status: number, error: ResearchApiError['error']): void {
   sendJson(response, status, { error } satisfies ResearchApiError);
@@ -15,6 +17,10 @@ function sendError(response: ServerResponse, status: number, error: ResearchApiE
 
 function sendConceptError(response: ServerResponse, status: number, error: LabelConceptApiError['error']): void {
   sendJson(response, status, { error } satisfies LabelConceptApiError);
+}
+
+function sendDiscoveryError(response: ServerResponse, status: number, error: CoffeeDiscoveryApiError['error']): void {
+  sendJson(response, status, { error } satisfies CoffeeDiscoveryApiError);
 }
 
 export async function handleApi(
@@ -47,6 +53,42 @@ export async function handleApi(
     return true;
   }
 
+  if (url.pathname === '/api/discover') {
+    if (request.method !== 'POST') {
+      sendDiscoveryError(response, 405, { code: 'METHOD_NOT_ALLOWED', message: 'Use POST for this endpoint.' });
+      return true;
+    }
+    if (!service.configured) {
+      sendDiscoveryError(response, 503, { code: 'DISCOVERY_NOT_CONFIGURED', message: 'Coffee discovery is not configured on this server.' });
+      return true;
+    }
+    const rateLimit = runtime.consume('discover', context.clientAddress);
+    if (rateLimit.limited) {
+      response.setHeader('Retry-After', String(rateLimit.retryAfterSeconds));
+      sendDiscoveryError(response, 429, { code: 'RATE_LIMITED', message: 'Too many discovery requests. Try again later.' });
+      return true;
+    }
+
+    const requestId = randomUUID();
+    try {
+      const parsed = coffeeDiscoveryRequestSchema.safeParse(await readJsonBody(request));
+      if (!parsed.success) {
+        sendDiscoveryError(response, 400, { code: 'INVALID_DISCOVERY_REQUEST', message: 'Enter a coffee variety.' });
+        return true;
+      }
+      sendJson(response, 200, await service.discover(parsed.data, { safetyIdentifier: context.safetyIdentifier }));
+    } catch (error) {
+      const invalidBody = error instanceof SyntaxError || (error instanceof Error && error.message === 'REQUEST_TOO_LARGE');
+      if (invalidBody) {
+        sendDiscoveryError(response, 400, { code: 'INVALID_DISCOVERY_REQUEST', message: 'The discovery request is invalid.' });
+        return true;
+      }
+      console.error(`[discover:${requestId}]`, error instanceof Error ? error.message : 'Unknown discovery provider error');
+      sendDiscoveryError(response, 502, { code: 'DISCOVERY_FAILED', message: 'Coffee discovery could not be completed. Try again.', requestId });
+    }
+    return true;
+  }
+
   if (url.pathname === '/api/label-concept') {
     if (request.method !== 'POST') {
       sendConceptError(response, 405, { code: 'METHOD_NOT_ALLOWED', message: 'Use POST for this endpoint.' });
@@ -66,11 +108,17 @@ export async function handleApi(
     const requestId = randomUUID();
     try {
       const parsed = labelConceptRequestSchema.safeParse(await readJsonBody(request, 65_536));
-      const variety = parsed.success ? parsed.data.research.variety.value : null;
-      if (!parsed.success || !variety) {
+      const research = parsed.success ? parsed.data.research : null;
+      const identityComplete = Boolean(
+        research?.coffeeName.value
+        && research.variety.value
+        && research.producer.value
+        && research.tastingNotes.value?.length,
+      );
+      if (!parsed.success || !identityComplete) {
         sendConceptError(response, 400, {
           code: 'INVALID_CONCEPT_REQUEST',
-          message: 'A researched coffee variety is required to create its color identity.',
+          message: 'A verified coffee name, variety, producer, and tasting profile are required to create its color identity.',
         });
         return true;
       }

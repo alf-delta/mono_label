@@ -1,21 +1,19 @@
 import { useState, type FormEvent } from 'react';
-import type { ResearchRequest } from '../research/research-types';
+import type { CoffeeDiscoveryRequest } from '../discovery/discovery-types';
 import { WorkflowHeader } from './WorkflowHeader';
 
 interface IdentifyScreenProps {
-  initial?: ResearchRequest;
-  onSubmit: (request: ResearchRequest) => void;
+  initial?: CoffeeDiscoveryRequest;
+  onSubmit: (request: CoffeeDiscoveryRequest) => void;
   onOpenReference?: () => void;
 }
 
 export function IdentifyScreen({ initial, onSubmit, onOpenReference }: IdentifyScreenProps) {
-  const [coffeeName, setCoffeeName] = useState(initial?.coffeeName ?? '');
-  const [producer, setProducer] = useState(initial?.producer ?? '');
-  const [additionalInformation, setAdditionalInformation] = useState(initial?.additionalInformation ?? '');
+  const [variety, setVariety] = useState(initial?.variety ?? '');
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    onSubmit({ coffeeName, producer, additionalInformation: additionalInformation || undefined });
+    onSubmit({ variety });
   };
 
   return (
@@ -23,31 +21,24 @@ export function IdentifyScreen({ initial, onSubmit, onOpenReference }: IdentifyS
       <WorkflowHeader step="Step 1 of 5" />
       <section className="identify-stage">
         <div className="identify-intro">
-          <span className="eyebrow">Identify coffee</span>
-          <h1>Start with what you know.</h1>
-          <p>We’ll research the exact lot, preserve the evidence, and leave uncertain label fields unresolved.</p>
+          <span className="eyebrow">Choose variety</span>
+          <h1>Start with the coffee.</h1>
+          <p>Enter one variety. We’ll find exact coffees with verified source pages, group them by origin, and ask you to choose before researching the label.</p>
           <ol className="workflow-steps workflow-steps-five" aria-label="Label workflow">
-            <li className="is-active"><span>01</span> Identify</li>
-            <li><span>02</span> Research</li>
-            <li><span>03</span> Review</li>
+            <li className="is-active"><span>01</span> Variety</li>
+            <li><span>02</span> Select</li>
+            <li><span>03</span> Research</li>
             <li><span>04</span> Create</li>
             <li><span>05</span> Label</li>
           </ol>
         </div>
         <form className="identify-form" onSubmit={submit}>
           <label>
-            <span>Coffee name</span>
-            <input autoFocus required minLength={2} maxLength={120} value={coffeeName} onChange={(event) => setCoffeeName(event.target.value)} placeholder="Geisha" />
+            <span>Coffee variety</span>
+            <input autoFocus required minLength={2} maxLength={80} value={variety} onChange={(event) => setVariety(event.target.value)} placeholder="Geisha" />
           </label>
-          <label>
-            <span>Producer</span>
-            <input required minLength={2} maxLength={120} value={producer} onChange={(event) => setProducer(event.target.value)} placeholder="Elkin Arcila" />
-          </label>
-          <label>
-            <span>Source URL / additional information <em>Optional</em></span>
-            <textarea maxLength={1200} value={additionalInformation} onChange={(event) => setAdditionalInformation(event.target.value)} placeholder="Roaster page, product link, crop year, or other distinguishing context" />
-          </label>
-          <button type="submit" className="button button-primary">Find coffee <span aria-hidden="true">→</span></button>
+          <p className="identify-form-note">We accept common aliases such as Geisha / Gesha. Producer, country, and lot are selected on the next screen.</p>
+          <button type="submit" className="button button-primary">Find matching coffees <span aria-hidden="true">→</span></button>
           {import.meta.env.DEV && onOpenReference && (
             <button type="button" className="text-button" onClick={onOpenReference}>Open calibrated reference directly</button>
           )}

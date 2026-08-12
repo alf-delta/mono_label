@@ -6,6 +6,8 @@ export type Confidence = (typeof CONFIDENCE_LEVELS)[number];
 export interface ResearchRequest {
   coffeeName: string;
   producer: string;
+  variety?: string;
+  sourceUrl?: string;
   additionalInformation?: string;
 }
 

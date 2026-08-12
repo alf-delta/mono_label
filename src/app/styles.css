@@ -499,6 +499,7 @@ button, input, select { font: inherit; }
 .identify-form textarea::placeholder { color: #aaa59c; }
 .identify-form .button-primary { margin-top: 12px; }
 .identify-form .button-primary span { margin-left: 10px; font-size: 15px; }
+.identify-form-note { margin: -4px 0 26px; color: #817c74; font-size: 10px; line-height: 1.55; }
 .text-button { display: block; margin: 18px auto 0; border: 0; background: transparent; color: #777169; font-size: 10px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 
 .research-progress-stage {
@@ -518,6 +519,7 @@ button, input, select { font: inherit; }
 .research-progress-stage h1 { font-size: 52px; }
 .research-progress-stage > p { max-width: 580px; margin: 18px 0 34px; color: #716c64; font-size: 13px; line-height: 1.6; }
 .research-progress-stage ul { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 1px; width: min(900px, 100%); margin: 0; padding: 0; background: #d5d1c8; list-style: none; }
+.research-progress-stage .discovery-checks { grid-template-columns: repeat(4, minmax(140px, 1fr)); width: min(760px, 100%); }
 .research-progress-stage li { display: flex; min-height: 90px; align-items: center; justify-content: center; gap: 8px; padding: 16px; background: #f7f6f2; color: #625e57; font-size: 10px; line-height: 1.4; }
 .research-progress-stage li span { flex: 0 0 6px; width: 6px; height: 6px; border-radius: 50%; background: #76515d; animation: validation-pulse 1.4s ease-in-out infinite; }
 .research-progress-stage li:nth-child(2) span { animation-delay: 180ms; }
@@ -525,6 +527,57 @@ button, input, select { font: inherit; }
 .research-progress-stage li:nth-child(4) span { animation-delay: 540ms; }
 .research-progress-stage li:nth-child(5) span { animation-delay: 720ms; }
 @keyframes research-spin { to { transform: rotate(360deg); } }
+
+.candidate-stage {
+  display: grid;
+  grid-template-columns: minmax(240px, 290px) minmax(520px, 1fr) minmax(280px, 340px);
+  min-height: calc(100vh - 70px);
+}
+.candidate-context,
+.candidate-manual { padding: 42px 30px; background: #f7f6f2; }
+.candidate-context { border-right: 1px solid #d8d6cf; }
+.candidate-context h1,
+.candidate-manual h2,
+.candidate-empty h2,
+.candidate-country h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+.candidate-context h1 { margin: 14px 0 0; font-size: 42px; line-height: 1; }
+.candidate-context > p,
+.candidate-manual > p,
+.candidate-empty > p { color: #716c64; font-size: 11px; line-height: 1.6; }
+.candidate-context dl { margin: 32px 0 0; }
+.candidate-context dl div { display: flex; justify-content: space-between; gap: 14px; border-top: 1px solid #dedbd3; padding: 10px 0; }
+.candidate-context dt { color: #89847c; font-size: 8px; letter-spacing: .09em; text-transform: uppercase; }
+.candidate-context dd { margin: 0; max-width: 145px; overflow: hidden; font-size: 9px; font-weight: 700; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+.candidate-back { margin: 26px 0 0; }
+.candidate-results { overflow-y: auto; padding: 38px; background: #dedbd4; }
+.candidate-country + .candidate-country { margin-top: 34px; }
+.candidate-country-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 12px; }
+.candidate-country-heading h2 { margin: 0; font-size: 25px; }
+.candidate-country-heading span { color: #817c74; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
+.candidate-list { display: grid; gap: 1px; background: #cbc7be; }
+.candidate-card { background: #f8f7f3; }
+.candidate-card button { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; border: 0; padding: 20px 22px 14px; background: transparent; color: #292622; text-align: left; cursor: pointer; }
+.candidate-card button:hover,
+.candidate-card button:focus-visible { background: #fff; outline: 0; }
+.candidate-card-copy { display: grid; min-width: 0; gap: 6px; }
+.candidate-card-copy small { overflow: hidden; color: #817b73; font-size: 8px; font-weight: 700; letter-spacing: .07em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+.candidate-card-copy strong { font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 400; }
+.candidate-card-copy > span { color: #716c64; font-size: 9px; line-height: 1.45; }
+.candidate-card-arrow { color: #76515d; font-size: 18px; }
+.candidate-card > a { display: block; overflow: hidden; margin: 0 22px; border-top: 1px solid #e1ded7; padding: 9px 0 12px; color: #817b73; font-size: 8px; text-decoration: underline; text-overflow: ellipsis; white-space: nowrap; }
+.candidate-empty { display: grid; min-height: 320px; place-content: center; padding: 40px; background: #f7f6f2; text-align: center; }
+.candidate-empty h2 { margin: 12px 0 0; font-size: 34px; }
+.candidate-manual { border-left: 1px solid #d8d6cf; }
+.candidate-manual h2 { margin: 12px 0 0; font-size: 28px; text-transform: uppercase; }
+.candidate-manual form { margin-top: 30px; }
+.candidate-manual label { display: block; margin-bottom: 20px; }
+.candidate-manual label span { display: block; margin-bottom: 7px; color: #6d6861; font-size: 8px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+.candidate-manual input { width: 100%; border: 0; border-bottom: 1px solid #bcb7ad; border-radius: 0; padding: 9px 0 11px; background: transparent; color: #292622; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; }
+.candidate-manual input:focus { border-color: #292622; outline: 0; }
+.candidate-manual .button { width: 100%; margin-top: 8px; }
 
 .research-review-stage {
   display: grid;

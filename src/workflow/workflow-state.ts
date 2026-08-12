@@ -1,5 +1,8 @@
 export type WorkflowState =
   | 'identify'
+  | 'discovering'
+  | 'candidate-selection'
+  | 'discovery-error'
   | 'researching'
   | 'research-review'
   | 'creating-label'
@@ -14,9 +17,13 @@ import type { LabelFixture } from '../label/fixtures/reference-label';
 import type { ResearchRequest, ResearchResponse } from '../research/research-types';
 import type { ExportResult, ExportSettings, ExportSnapshot, ImpositionResult } from '../export/export-types';
 import type { LabelConceptResponse } from '../concept/concept-types';
+import type { CoffeeDiscoveryRequest, CoffeeDiscoveryResponse } from '../discovery/discovery-types';
 
 export type WorkflowSession =
-  | { state: 'identify'; initial?: ResearchRequest }
+  | { state: 'identify'; initial?: CoffeeDiscoveryRequest }
+  | { state: 'discovering'; request: CoffeeDiscoveryRequest }
+  | { state: 'candidate-selection'; request: CoffeeDiscoveryRequest; response: CoffeeDiscoveryResponse }
+  | { state: 'discovery-error'; request: CoffeeDiscoveryRequest; message: string; requestId?: string }
   | { state: 'researching'; request: ResearchRequest }
   | { state: 'research-review'; request: ResearchRequest; response: ResearchResponse }
   | { state: 'creating-label'; request: ResearchRequest; response: ResearchResponse }

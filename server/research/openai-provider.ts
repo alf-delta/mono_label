@@ -7,6 +7,9 @@ import type { ProviderRequestContext, ResearchProvider, ResearchProviderResult }
 import { rawLabelConceptSchema } from '../../src/concept/concept-schema.js';
 import { createLabelConceptUserPrompt, LABEL_CONCEPT_SYSTEM_PROMPT } from '../../src/concept/concept-prompt.js';
 import type { LabelConceptRequest } from '../../src/concept/concept-types.js';
+import { coffeeDiscoveryModelOutputSchema, rawCoffeeDiscoveryResultSchema } from '../../src/discovery/discovery-schema.js';
+import { createCoffeeDiscoveryUserPrompt, COFFEE_DISCOVERY_SYSTEM_PROMPT } from '../../src/discovery/discovery-prompt.js';
+import type { CoffeeDiscoveryRequest } from '../../src/discovery/discovery-types.js';
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -64,6 +67,30 @@ export class OpenAIResearchProvider implements ResearchProvider {
     this.#model = model;
     this.#creativeModel = creativeModel;
     this.#client = validApiKey ? new OpenAI({ apiKey: apiKey.trim(), timeout: 180_000, maxRetries: 1 }) : null;
+  }
+
+  async discover(request: CoffeeDiscoveryRequest, context?: ProviderRequestContext) {
+    if (!this.#client) throw new Error('OPENAI_API_KEY is not configured.');
+
+    const response = await this.#client.responses.parse({
+      model: this.#model,
+      ...(context?.safetyIdentifier ? { safety_identifier: context.safetyIdentifier } : {}),
+      reasoning: { effort: 'medium' },
+      tools: [{ type: 'web_search' }],
+      tool_choice: 'auto',
+      include: ['web_search_call.action.sources'],
+      store: false,
+      input: [
+        { role: 'system', content: COFFEE_DISCOVERY_SYSTEM_PROMPT },
+        { role: 'user', content: createCoffeeDiscoveryUserPrompt(request) },
+      ],
+      text: { format: zodTextFormat(coffeeDiscoveryModelOutputSchema, 'coffee_discovery') },
+    });
+
+    if (!response.output_parsed) throw new Error('The discovery response did not contain structured output.');
+    const raw = rawCoffeeDiscoveryResultSchema.parse(response.output_parsed);
+    const sources = extractSources(response.output as readonly unknown[]);
+    return { raw, sources, model: this.#model, responseId: response.id };
   }
 
   async research(request: ResearchRequest, context?: ProviderRequestContext): Promise<ResearchProviderResult> {

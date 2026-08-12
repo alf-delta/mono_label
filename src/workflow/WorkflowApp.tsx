@@ -20,6 +20,11 @@ import { CreatingLabel } from '../concept/CreatingLabel';
 import { ColorConceptScreen } from '../concept/ColorConceptScreen';
 import { ConceptError } from '../concept/ConceptError';
 import { conceptColors, type LabelConceptColor } from '../concept/concept-types';
+import { CoffeeDiscoveryClientError, discoverCoffees } from '../discovery/discovery-client';
+import type { CoffeeDiscoveryRequest } from '../discovery/discovery-types';
+import { CandidateSelection } from './CandidateSelection';
+import { DiscoveryError } from './DiscoveryError';
+import { DiscoveryProgress } from './DiscoveryProgress';
 
 function initialSession(): WorkflowSession {
   const parameters = new URLSearchParams(window.location.search);
@@ -38,6 +43,10 @@ function createResearchFixture(response: ResearchResponse, color: LabelConceptCo
   );
 }
 
+function varietyFromResearch(request: ResearchRequest, response?: ResearchResponse): CoffeeDiscoveryRequest {
+  return { variety: request.variety ?? response?.result.variety.value ?? request.coffeeName };
+}
+
 export function WorkflowApp() {
   const [session, setSession] = useState<WorkflowSession>(initialSession);
   const abortRef = useRef<AbortController | null>(null);
@@ -47,6 +56,28 @@ export function WorkflowApp() {
     abortRef.current?.abort();
     if (downloadUrlRef.current) URL.revokeObjectURL(downloadUrlRef.current);
   }, []);
+
+  const startDiscovery = (request: CoffeeDiscoveryRequest) => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    setSession({ state: 'discovering', request });
+
+    void discoverCoffees(request, controller.signal)
+      .then((response) => {
+        if (!controller.signal.aborted) setSession({ state: 'candidate-selection', request, response });
+      })
+      .catch((error: unknown) => {
+        if (controller.signal.aborted) return;
+        const clientError = error instanceof CoffeeDiscoveryClientError ? error : null;
+        setSession({
+          state: 'discovery-error',
+          request,
+          message: clientError?.message ?? 'Coffee discovery could not be completed.',
+          requestId: clientError?.requestId,
+        });
+      });
+  };
 
   const startResearch = (request: ResearchRequest) => {
     abortRef.current?.abort();
@@ -146,8 +177,33 @@ export function WorkflowApp() {
     return (
       <IdentifyScreen
         initial={session.initial}
-        onSubmit={startResearch}
+        onSubmit={startDiscovery}
         onOpenReference={() => setSession({ state: 'final-review', fixture: REFERENCE_FIXTURE })}
+      />
+    );
+  }
+
+  if (session.state === 'discovering') return <DiscoveryProgress request={session.request} />;
+
+  if (session.state === 'candidate-selection') {
+    return (
+      <CandidateSelection
+        request={session.request}
+        response={session.response}
+        onBack={() => setSession({ state: 'identify', initial: session.request })}
+        onSelect={startResearch}
+      />
+    );
+  }
+
+  if (session.state === 'discovery-error') {
+    return (
+      <DiscoveryError
+        request={session.request}
+        message={session.message}
+        requestId={session.requestId}
+        onRetry={() => startDiscovery(session.request)}
+        onBack={() => setSession({ state: 'identify', initial: session.request })}
       />
     );
   }
@@ -159,7 +215,7 @@ export function WorkflowApp() {
       <ResearchReview
         request={session.request}
         response={session.response}
-        onBack={() => setSession({ state: 'identify', initial: session.request })}
+        onBack={() => setSession({ state: 'identify', initial: varietyFromResearch(session.request, session.response) })}
         onCreateLabel={() => startLabelConcept(session.request, session.response)}
       />
     );
@@ -205,7 +261,7 @@ export function WorkflowApp() {
         message={session.message}
         requestId={session.requestId}
         onRetry={() => startResearch(session.request)}
-        onBack={() => setSession({ state: 'identify', initial: session.request })}
+        onBack={() => setSession({ state: 'identify', initial: varietyFromResearch(session.request) })}
       />
     );
   }

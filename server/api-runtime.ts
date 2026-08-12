@@ -53,7 +53,7 @@ export interface ApiRequestContext {
 
 export interface ApiRuntime {
   requestContext(request: IncomingMessage): ApiRequestContext;
-  consume(endpoint: 'research' | 'concept' | 'export', clientAddress: string): RateLimitResult;
+  consume(endpoint: 'discover' | 'research' | 'concept' | 'export', clientAddress: string): RateLimitResult;
   safetyIdentifiersConfigured: boolean;
 }
 
@@ -62,6 +62,7 @@ export function createApiRuntime(env: Record<string, string | undefined>): ApiRu
   const safetySecret = env.SAFETY_IDENTIFIER_SECRET?.trim() || null;
   const windowMs = positiveInteger(env.API_RATE_LIMIT_WINDOW_MS, 10 * 60 * 1_000);
   const limiters = {
+    discover: new SlidingWindowRateLimiter(positiveInteger(env.DISCOVERY_RATE_LIMIT_MAX, 8), windowMs),
     research: new SlidingWindowRateLimiter(positiveInteger(env.RESEARCH_RATE_LIMIT_MAX, 8), windowMs),
     concept: new SlidingWindowRateLimiter(positiveInteger(env.CONCEPT_RATE_LIMIT_MAX, 8), windowMs),
     export: new SlidingWindowRateLimiter(positiveInteger(env.EXPORT_RATE_LIMIT_MAX, 12), windowMs),

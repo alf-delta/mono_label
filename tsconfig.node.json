@@ -19,6 +19,7 @@
     "src/concept/concept-types.ts",
     "src/concept/concept-prompt.ts",
     "src/concept/normalize-label-concept.ts",
+    "src/discovery",
     "src/color/color-engine.ts",
     "src/color/color-math.ts",
     "src/color/color-rules.ts",

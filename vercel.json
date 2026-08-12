@@ -5,6 +5,7 @@
   "outputDirectory": "dist",
   "functions": {
     "api/health.ts": { "maxDuration": 10 },
+    "api/discover.ts": { "maxDuration": 210 },
     "api/research.ts": { "maxDuration": 210 },
     "api/label-concept.ts": { "maxDuration": 210 },
     "api/export.ts": { "maxDuration": 60 }

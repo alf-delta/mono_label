@@ -33,11 +33,14 @@ test('safety identifiers are stable, private, and secret-dependent', () => {
 
 test('each expensive endpoint has an independent sliding-window budget', () => {
   const runtime = createApiRuntime({
+    DISCOVERY_RATE_LIMIT_MAX: '1',
     RESEARCH_RATE_LIMIT_MAX: '1',
     CONCEPT_RATE_LIMIT_MAX: '1',
     EXPORT_RATE_LIMIT_MAX: '1',
   });
 
+  assert.equal(runtime.consume('discover', 'client').limited, false);
+  assert.equal(runtime.consume('discover', 'client').limited, true);
   assert.equal(runtime.consume('research', 'client').limited, false);
   assert.equal(runtime.consume('research', 'client').limited, true);
   assert.equal(runtime.consume('concept', 'client').limited, false);

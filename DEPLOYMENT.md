@@ -58,7 +58,7 @@ The image includes a health check and runs as the unprivileged `node` user.
 
 ## Vercel deployment
 
-Vercel builds the Vite client into `dist` and deploys the four files in `api/` as Node.js Functions. `vercel.json` keeps API routes on those functions and rewrites other application routes to the SPA entry point.
+Vercel builds the Vite client into `dist` and deploys the files in `api/` as Node.js Functions. `vercel.json` keeps API routes on those functions and rewrites other application routes to the SPA entry point.
 
 Required Vercel project variables:
 
