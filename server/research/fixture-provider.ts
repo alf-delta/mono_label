@@ -36,11 +36,12 @@ export class FixtureResearchProvider implements ResearchProvider {
 
   async research(request: ResearchRequest): Promise<ResearchProviderResult> {
     const sourced = <T>(value: T) => ({ value, confidence: 'medium' as const, sources: [FIXTURE_SOURCE] });
+    const coffeeName = request.coffeeName || 'King Arthur Geisha';
     return {
       model: 'deterministic-fixture-v1',
       sources: [{ url: FIXTURE_SOURCE, title: 'Local deterministic research fixture' }],
       raw: {
-        coffeeName: sourced(request.coffeeName),
+        coffeeName: sourced(coffeeName),
         variety: sourced(request.variety ?? 'Geisha'),
         processing: sourced('Honey'),
         altitude: sourced('1800'),

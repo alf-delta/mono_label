@@ -68,6 +68,21 @@ test('Vercel research function accepts the platform pre-parsed request body', as
   assert.equal(body.result.variety.value, 'Geisha');
 });
 
+test('Vercel research accepts a source-only import request', async () => {
+  const handler = createVercelHandler({ RESEARCH_PROVIDER: 'fixture', SAFETY_IDENTIFIER_SECRET: 'test-secret' });
+  const result = response();
+  await handler(request('/api/research', 'POST', {
+    coffeeName: '',
+    producer: '',
+    entryMode: 'source',
+    sourceUrl: 'https://example.invalid/monoblend-research-fixture',
+  }), result.nodeResponse);
+
+  assert.equal(result.captured.status, 200);
+  const body = JSON.parse(result.captured.body) as { result: { coffeeName: { value: string } } };
+  assert.equal(body.result.coffeeName.value, 'King Arthur Geisha');
+});
+
 test('Vercel discovery returns exact fixture candidates with verified sources', async () => {
   const handler = createVercelHandler({ RESEARCH_PROVIDER: 'fixture', SAFETY_IDENTIFIER_SECRET: 'test-secret' });
   const result = response();

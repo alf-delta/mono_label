@@ -83,7 +83,7 @@ export function ColorConceptScreen({ request, research, concept, onBack, onRegen
 
   return (
     <main className="app-shell workflow-shell concept-result-shell" style={style}>
-      <WorkflowHeader step="Step 4 of 5" onStartOver={onBack} />
+      <WorkflowHeader step="Step 3 of 5" onStartOver={onBack} />
       <section className="concept-result-stage">
         <aside className="concept-story-panel" data-selected-color={selected.hex}>
           <span className="eyebrow">{selected.id === MANUAL_COLOR_ID ? 'Manual color' : selected.role === 'suggested' ? 'AI recommendation' : 'Selected direction'}</span>

@@ -160,7 +160,7 @@ export async function handleApi(
     const body = await readJsonBody(request);
     const parsed = researchRequestSchema.safeParse(body);
     if (!parsed.success) {
-      sendError(response, 400, { code: 'INVALID_REQUEST', message: 'Enter a coffee name and producer.' });
+      sendError(response, 400, { code: 'INVALID_REQUEST', message: 'Enter the coffee details or a valid source URL.' });
       return true;
     }
     sendJson(response, 200, await service.research(parsed.data, { safetyIdentifier: context.safetyIdentifier }));

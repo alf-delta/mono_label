@@ -8,6 +8,9 @@ export function WorkflowError({ request, message, requestId, onRetry, onBack }: 
   onRetry: () => void;
   onBack: () => void;
 }) {
+  const requestLabel = request.entryMode === 'source'
+    ? request.sourceUrl ?? 'Source import'
+    : `${request.coffeeName} · ${request.producer}`;
   return (
     <main className="app-shell workflow-shell">
       <WorkflowHeader step="Research error" onStartOver={onBack} />
@@ -21,7 +24,7 @@ export function WorkflowError({ request, message, requestId, onRetry, onBack }: 
           <button type="button" className="button button-primary" onClick={onRetry}>Try again</button>
           <button type="button" className="button button-secondary" onClick={onBack}>Edit identification</button>
         </div>
-        <small>{request.coffeeName} · {request.producer}</small>
+        <small>{requestLabel}</small>
       </section>
     </main>
   );

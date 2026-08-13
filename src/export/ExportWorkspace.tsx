@@ -24,7 +24,7 @@ export function ExportWorkspace({ snapshot, settings, exporting, error, onSettin
 
   return (
     <main className="app-shell export-shell">
-      <WorkflowHeader step="Step 4 of 4" onStartOver={onBack} />
+      <WorkflowHeader step="Step 5 of 5" onStartOver={onBack} />
       <section className="export-workspace">
         <aside className="export-controls">
           <span className="eyebrow">Print setup</span>

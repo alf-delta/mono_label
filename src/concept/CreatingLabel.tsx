@@ -40,7 +40,7 @@ export function CreatingLabel({ request, response }: { request: ResearchRequest;
 
   return (
     <main className="app-shell workflow-shell concept-creating-shell">
-      <WorkflowHeader step="Step 4 of 5" />
+      <WorkflowHeader step="Step 3 of 5" />
       <section className="concept-creating-stage" aria-live="polite">
         <div className="concept-creating-copy">
           <span className="eyebrow">Monoblend color studio</span>

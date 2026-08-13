@@ -1,12 +1,20 @@
 import { z } from 'zod';
 
 export const researchRequestSchema = z.object({
-  coffeeName: z.string().trim().min(2).max(120),
-  producer: z.string().trim().min(2).max(120),
+  coffeeName: z.string().trim().max(120),
+  producer: z.string().trim().max(120),
+  entryMode: z.enum(['identified', 'source', 'manual']).optional(),
   variety: z.string().trim().min(2).max(80).optional(),
   sourceUrl: z.url().optional(),
   additionalInformation: z.string().trim().max(1200).optional(),
-}).strict();
+}).strict().superRefine((request, context) => {
+  if (request.entryMode === 'source') {
+    if (!request.sourceUrl) context.addIssue({ code: 'custom', path: ['sourceUrl'], message: 'A source URL is required.' });
+    return;
+  }
+  if (request.coffeeName.length < 2) context.addIssue({ code: 'custom', path: ['coffeeName'], message: 'A coffee name is required.' });
+  if (request.producer.length < 2) context.addIssue({ code: 'custom', path: ['producer'], message: 'A producer is required.' });
+});
 
 const confidenceSchema = z.enum(['high', 'medium', 'low', 'unknown']);
 
@@ -42,7 +50,7 @@ export const researchResponseSchema = z.object({
   result: coffeeResearchResultSchema,
   sources: z.array(z.object({ url: z.url(), title: z.string() }).strict()),
   meta: z.object({
-    provider: z.enum(['openai', 'fixture']),
+    provider: z.enum(['openai', 'fixture', 'manual']),
     model: z.string(),
     researchedAt: z.string(),
   }).strict(),

@@ -4,6 +4,7 @@ import { zodTextFormat } from 'openai/helpers/zod';
 import {
   coffeeResearchModelOutputSchema,
   coffeeResearchResultSchema,
+  researchRequestSchema,
 } from '../src/research/research-schema';
 
 const result = {
@@ -25,4 +26,18 @@ test('the OpenAI response schema contains no unsupported URI format', () => {
 test('server validation still rejects invalid source URLs', () => {
   assert.equal(coffeeResearchModelOutputSchema.safeParse(result).success, true);
   assert.equal(coffeeResearchResultSchema.safeParse(result).success, false);
+});
+
+test('source import requires only one valid source URL', () => {
+  assert.equal(researchRequestSchema.safeParse({
+    coffeeName: '',
+    producer: '',
+    entryMode: 'source',
+    sourceUrl: 'https://example.com/coffee/lot-42',
+  }).success, true);
+  assert.equal(researchRequestSchema.safeParse({
+    coffeeName: '',
+    producer: '',
+    entryMode: 'source',
+  }).success, false);
 });

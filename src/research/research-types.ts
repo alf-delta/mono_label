@@ -6,6 +6,7 @@ export type Confidence = (typeof CONFIDENCE_LEVELS)[number];
 export interface ResearchRequest {
   coffeeName: string;
   producer: string;
+  entryMode?: 'identified' | 'source' | 'manual';
   variety?: string;
   sourceUrl?: string;
   additionalInformation?: string;
@@ -37,7 +38,7 @@ export interface ResearchResponse {
   result: CoffeeResearchResult;
   sources: readonly ResearchSource[];
   meta: {
-    provider: 'openai' | 'fixture';
+    provider: 'openai' | 'fixture' | 'manual';
     model: string;
     researchedAt: string;
   };
